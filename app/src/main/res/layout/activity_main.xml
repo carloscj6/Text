@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.revosleap.text.MainActivity"
+    >
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/pick_contacts" />
+
+        <Button
+            android:background="@drawable/ic_person_add_black_36dp"
+            android:id="@+id/pick_contact"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/pick_contacts"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Message"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/messagetype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="Message" />
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorAccent"
+        android:id="@+id/buttonsend"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="0dp"
+        android:text="SEND"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+
+</android.support.constraint.ConstraintLayout>
