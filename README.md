@@ -1,10 +1,7 @@
 # Text
-Bulk sms sending App
-App to send SMS to multiple users with a contact picker.
-Completely open source, any modifications are allowed.
+Bulk SMS sender.
 
-FEATURES
+## Features
 1. Contact Picker
-2. Send to certain groups
-3. Personlized welcome messsage.
-4. Custom greetings depending on the time of the day.
+2. Save SMS and Contacts after sending
+3. Custom greeting message
