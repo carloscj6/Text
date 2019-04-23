@@ -2,16 +2,16 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.3.11'
+        kotlin_version = '1.3.30'
         supportVersion = '28.0.0'
-        objectboxVersion = '2.2.0'
+        objectboxVersion = '2.3.4'
     }
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.objectbox:objectbox-gradle-plugin:$objectboxVersion"
 
