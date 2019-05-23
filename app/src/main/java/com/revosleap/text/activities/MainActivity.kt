@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
     }
 
     override fun onMessageClicked(sentMessages: SentMessages, index: Int) {
-        Utils.toast(this, sentMessages.message!!)
+       // Utils.toast(this, sentMessages.message!!)
     }
 
     private fun chooseContacts() {
