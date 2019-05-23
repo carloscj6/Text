@@ -16,13 +16,15 @@ import android.view.View
 import android.widget.Toast
 import com.revosleap.text.Application
 import com.revosleap.text.R
-import com.revosleap.text.adapters.SavedAdapter
+import com.revosleap.text.adapters.MessagesAdapter
 import com.revosleap.text.adapters.SendingAdapter
 import com.revosleap.text.interfaces.ContactList
+import com.revosleap.text.interfaces.MessageClicked
 import com.revosleap.text.interfaces.OnContactClicked
 import com.revosleap.text.models.Contacts
 import com.revosleap.text.models.PendingModel
 import com.revosleap.text.models.SentMessages
+import com.revosleap.text.utils.Utils
 import com.wafflecopter.multicontactpicker.ContactResult
 import com.wafflecopter.multicontactpicker.LimitColumn
 import com.wafflecopter.multicontactpicker.MultiContactPicker
@@ -30,30 +32,29 @@ import io.objectbox.Box
 import io.objectbox.kotlin.boxFor
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity(),OnContactClicked,ContactList {
+class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, MessageClicked {
     private val pendingList: MutableList<PendingModel> = arrayListOf()
-    private var savedList:MutableList<SentMessages> = arrayListOf()
-    private var pendingAdapter:SendingAdapter?=null
-    private var savedAdapter:SavedAdapter?=null
-    private var textMessage=""
-    private val box:Box<SentMessages> = Application.boxStore!!.boxFor()
-    private lateinit var bottomSheetBehavior :BottomSheetBehavior<View>
+    private var savedList: MutableList<SentMessages> = arrayListOf()
+    private var pendingAdapter: SendingAdapter? = null
+    private var messagesAdapter: MessagesAdapter? = null
+    private var textMessage = ""
+    private val box: Box<SentMessages> = Application.boxStore!!.boxFor()
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkPermissions()
         setGreetings()
-        bottomSheetBehavior= BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         setBotttomSheet()
-        pendingAdapter= SendingAdapter(pendingList,this,this)
-        savedAdapter= SavedAdapter(savedList)
+        pendingAdapter = SendingAdapter(pendingList, this, this)
+        messagesAdapter = MessagesAdapter(this)
         compose.setOnClickListener {
             textMessage = message.text.toString()
             if (textMessage.isEmpty()) {
-                textInputLayout.error="Type a message"
+                textInputLayout.error = "Type a message"
             } else {
                 chooseContacts()
             }
@@ -105,19 +106,23 @@ class MainActivity : AppCompatActivity(),OnContactClicked,ContactList {
 
     override fun contactList(contactList: MutableList<PendingModel>) {
         val smsManager = SmsManager.getDefault()
-        val sentMessages=SentMessages()
-        sentMessages.message=textMessage
-        sentMessages.time= System.currentTimeMillis()
+        val sentMessages = SentMessages()
+        sentMessages.message = textMessage
+        sentMessages.time = System.currentTimeMillis()
         buttonSend.setOnClickListener {
             contactList.forEach {
-                val contacts= Contacts()
-                contacts.contactName=  it.name
-                contacts.phoneNumber= it.phoneNo
+                val contacts = Contacts()
+                contacts.contactName = it.name
+                contacts.phoneNumber = it.phoneNo
                 sentMessages.contacts.add(contacts)
-              //  smsManager.sendTextMessage(it.phoneNo,null,textMessage,null,null)
+                //  smsManager.sendTextMessage(it.phoneNo,null,textMessage,null,null)
             }
             box.put(sentMessages)
         }
+    }
+
+    override fun onMessageClicked(sentMessages: SentMessages, index: Int) {
+        Utils.toast(this, sentMessages.message!!)
     }
 
     private fun chooseContacts() {
@@ -130,7 +135,8 @@ class MainActivity : AppCompatActivity(),OnContactClicked,ContactList {
                 .showPickerForResult(CONTACT_PICKER_RESULT)
 
     }
-    private fun setGreetings(){
+
+    private fun setGreetings() {
         val hr = Calendar.getInstance()
         val currentHour = hr.get(Calendar.HOUR_OF_DAY)
         val greeting: String
@@ -142,54 +148,65 @@ class MainActivity : AppCompatActivity(),OnContactClicked,ContactList {
         }
         toolbar.title = greeting
     }
-    private fun showSelectedContacts(contacts:ArrayList<ContactResult>){
+
+    private fun showSelectedContacts(contacts: ArrayList<ContactResult>) {
         contacts.forEach {
-            val model= PendingModel()
-            model.name= it.displayName
-            model.phoneNo=it.phoneNumbers[0].number
+            val model = PendingModel()
+            model.name = it.displayName
+            model.phoneNo = it.phoneNumbers[0].number
             pendingList.add(model)
         }
         recyclerView.apply {
             pendingAdapter!!.hasStableIds()
-            adapter= pendingAdapter
-            layoutManager= LinearLayoutManager(this@MainActivity)
+            adapter = pendingAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
             hasFixedSize()
         }
-        textViewHeader.text=getString(R.string.recipients)
-        bottomSheetBehavior.state= BottomSheetBehavior.STATE_EXPANDED
-        buttonSend.visibility= View.VISIBLE
+        textViewHeader.text = getString(R.string.recipients)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        buttonSend.visibility = View.VISIBLE
         setClearButton(1)
 
     }
-    private fun setClearButton(action:Int){
+
+    private fun setClearButton(action: Int) {
         buttonClear.setOnClickListener {
-            when(action){
-                1->{pendingAdapter?.clearAll()}
+            when (action) {
+                1 -> {
+                    pendingAdapter?.clearAll()
+                }
             }
         }
 
     }
 
-    private fun setBotttomSheet(){
+    private fun setBotttomSheet() {
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(p0: View, p1: Float) {
             }
+
             override fun onStateChanged(p0: View, p1: Int) {
-                if (p1 == BottomSheetBehavior.STATE_EXPANDED){
-                    textViewHeader.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_down,0,0)
-                }else textViewHeader.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_up,0,0)
+                if (p1 == BottomSheetBehavior.STATE_EXPANDED) {
+                    textViewHeader.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_down, 0, 0)
+                } else textViewHeader.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_up, 0, 0)
             }
 
         })
     }
-    private fun loadSavedMessages(){
-        savedList= box.all
-        recyclerView.apply {
-            hasFixedSize()
-            adapter= SavedAdapter(box.all)
-            layoutManager= LinearLayoutManager(this@MainActivity)
+
+    private fun loadSavedMessages() {
+        savedList = box.all
+        if (savedList.size > 0) {
+            recyclerViewMessages.visibility = View.VISIBLE
+            include.visibility = View.GONE
         }
-        bottomSheetBehavior.peekHeight=120
+        messagesAdapter?.setMessages(savedList)
+        recyclerViewMessages.apply {
+            hasFixedSize()
+            adapter = messagesAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
+
     }
 
     companion object {

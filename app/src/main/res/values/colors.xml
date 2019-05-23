@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorAccentLight">#ffcdd2</color>
+    <color name="speech_bubble_user">#D500C853</color>
+    <color name="speech_bubble_agent">#D500C853</color>
 </resources>

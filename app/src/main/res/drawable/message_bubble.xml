@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <rotate
+            android:fromDegrees="-45"
+            android:pivotX="0%"
+            android:pivotY="0%"
+            android:toDegrees="0" >
+            <shape android:shape="rectangle" >
+                <solid android:color="@color/speech_bubble_agent" />
+                <corners android:bottomLeftRadius="0dp"
+                    android:topLeftRadius="0dp"
+                    android:bottomRightRadius="10dp"
+                    android:topRightRadius="10dp"/>
+            </shape>
+        </rotate>
+    </item>
+    <item android:left="16dp">
+        <shape android:shape="rectangle" >
+            <solid android:color="@color/speech_bubble_agent" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+</layer-list>

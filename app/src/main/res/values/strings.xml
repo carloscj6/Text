@@ -8,5 +8,8 @@
     <string name="your_message">Your Message</string>
     <string name="choose_contacts">SELECT CONTACTS</string>
     <string name="recipients">Recipients</string>
+    <string name="save_draft">Save Draft</string>
+    <string name="no_messages">No Messages here, time to start texting</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
 
 </resources>

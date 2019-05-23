@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    android:padding="8dp"
+    android:background="@drawable/message_bubble"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:layout_marginStart="8dp"
+        tools:text="@string/lorem"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/textViewMsg"/>
     <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/textViewTime"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="@id/textViewMsg"
+        app:layout_constraintTop_toBottomOf="@id/textViewMsg"
+        android:textColor="@android:color/white"
+        tools:text="Today 4:20"
+        android:layout_height="wrap_content" />
+    <TextView
         android:background="@drawable/counter_bg"
         android:textColor="@android:color/white"
         android:layout_marginEnd="5dp"
+        android:elevation="5dp"
+        android:fadingEdgeLength="6dp"
+        tools:text="12 Recipients"
         android:gravity="center"
         android:textStyle="bold"
         android:textAlignment="center"
@@ -23,11 +44,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewMsg"
         android:id="@+id/textViewMsgCount"/>
-    <View
-        app:layout_constraintTop_toBottomOf="@id/textViewMsgCount"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        />
+
 </android.support.constraint.ConstraintLayout>
