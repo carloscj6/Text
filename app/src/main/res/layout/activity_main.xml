@@ -5,74 +5,101 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.revosleap.text.activities.MainActivity">
+    <ImageView
+        android:isScrollContainer="false"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="false"
+        android:scaleType="centerCrop"
+        android:id="@+id/imageViewHead"
+        android:contentDescription="@string/app_name"
+        android:layout_height="120dp" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="25dp"
         android:layout_height="match_parent">
 
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            app:titleTextColor="@android:color/white"
+            app:subtitleTextColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:layout_constraintTop_toTopOf="parent">
 
         </android.support.v7.widget.Toolbar>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardText"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="8dp"
+            android:minHeight="110dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-            <EditText
-                android:id="@+id/message"
+            android:layout_height="wrap_content">
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="all"
-                android:hint="@string/your_message"
-                android:inputType="textCapSentences|text|textMultiLine"
-                tools:ignore="Autofill" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/compose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:background="@drawable/chooser_button_bg"
-            android:minHeight="0dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:ems="10"
-            android:text="@string/choose_contacts"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/saveDraft"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputLayout" />
-        <Button
-            android:id="@+id/saveDraft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:background="@drawable/chooser_button_bg"
-            android:minHeight="0dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:ems="10"
-            android:text="@string/save_draft"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/compose"
-            app:layout_constraintTop_toBottomOf="@id/textInputLayout" />
+                    <EditText
+                        android:id="@+id/message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:hint="@string/your_message"
+                        android:inputType="textCapSentences|text|textMultiLine"
+                        tools:ignore="Autofill" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/compose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:background="@drawable/chooser_button_bg"
+                    android:minHeight="0dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:ems="10"
+                    android:text="@string/choose_contacts"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@id/saveDraft"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textInputLayout" />
+                <Button
+                    android:id="@+id/saveDraft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:background="@drawable/chooser_button_bg"
+                    android:minHeight="0dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:ems="10"
+                    android:text="@string/save_draft"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/compose"
+                    app:layout_constraintTop_toBottomOf="@id/textInputLayout" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewMessages"
@@ -81,7 +108,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/compose" />
+            app:layout_constraintTop_toBottomOf="@id/cardText" />
 
         <include
             android:id="@+id/include"
@@ -91,7 +118,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/compose" />
+            app:layout_constraintTop_toBottomOf="@id/cardText" />
 
 
     </android.support.constraint.ConstraintLayout>
@@ -103,7 +130,7 @@
         android:background="@android:color/white"
         android:orientation="vertical"
         app:behavior_hideable="true"
-        app:behavior_peekHeight="50dp"
+        app:behavior_peekHeight="0dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
         tools:ignore="MissingPrefix">
 

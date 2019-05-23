@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.support.design.widget.BottomSheetBehavior
@@ -24,6 +26,7 @@ import com.revosleap.text.interfaces.OnContactClicked
 import com.revosleap.text.models.Contacts
 import com.revosleap.text.models.PendingModel
 import com.revosleap.text.models.SentMessages
+import com.revosleap.text.utils.Blur
 import com.revosleap.text.utils.Utils
 import com.wafflecopter.multicontactpicker.ContactResult
 import com.wafflecopter.multicontactpicker.LimitColumn
@@ -32,6 +35,7 @@ import io.objectbox.Box
 import io.objectbox.kotlin.boxFor
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+
 
 class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, MessageClicked {
     private val pendingList: MutableList<PendingModel> = arrayListOf()
@@ -42,17 +46,21 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
     private val box: Box<SentMessages> = Application.boxStore!!.boxFor()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         setContentView(R.layout.activity_main)
         checkPermissions()
         setGreetings()
+        loadHead()
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         setBotttomSheet()
         pendingAdapter = SendingAdapter(pendingList, this, this)
         messagesAdapter = MessagesAdapter(this)
         compose.setOnClickListener {
-            textMessage = message.text.toString()
+            textMessage = message.text.toString().trim()
             if (textMessage.isEmpty()) {
                 textInputLayout.error = "Type a message"
             } else {
@@ -60,6 +68,7 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
             }
         }
         loadSavedMessages()
+
 
     }
 
@@ -84,6 +93,12 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
             }
         }
 
+    }
+
+    override fun onBackPressed() {
+        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+        } else super.onBackPressed()
     }
 
     private fun checkPermissions() {
@@ -115,9 +130,11 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
                 contacts.contactName = it.name
                 contacts.phoneNumber = it.phoneNo
                 sentMessages.contacts.add(contacts)
+                //Uncomment to send sms
                 //  smsManager.sendTextMessage(it.phoneNo,null,textMessage,null,null)
             }
             box.put(sentMessages)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
     }
 
@@ -149,6 +166,26 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
         toolbar.title = greeting
     }
 
+
+    private fun loadHead() {
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val image: Bitmap
+        image = when {
+            hour <= 3 -> getBitmapImageHead(R.drawable.night)
+            hour <= 11 -> getBitmapImageHead(R.drawable.morning)
+            hour <= 15 -> getBitmapImageHead(R.drawable.afternoon)
+            hour <= 21 -> getBitmapImageHead(R.drawable.evening)
+            else -> getBitmapImageHead(R.drawable.night)
+        }
+        imageViewHead.setImageBitmap(image)
+
+    }
+
+    private fun getBitmapImageHead(image: Int): Bitmap {
+        val pic = BitmapFactory.decodeResource(resources, image)
+        return Blur.blurred(this, pic, 20)
+    }
+
     private fun showSelectedContacts(contacts: ArrayList<ContactResult>) {
         contacts.forEach {
             val model = PendingModel()
@@ -164,6 +201,7 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
         }
         textViewHeader.text = getString(R.string.recipients)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheetBehavior.peekHeight = 50
         buttonSend.visibility = View.VISIBLE
         setClearButton(1)
 
@@ -207,6 +245,15 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
 
+    }
+
+    fun getStatusBarHeight(): Int {
+        var result = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId)
+        }
+        return result
     }
 
     companion object {
