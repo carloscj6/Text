@@ -20,6 +20,7 @@ import com.revosleap.text.Application
 import com.revosleap.text.R
 import com.revosleap.text.adapters.MessagesAdapter
 import com.revosleap.text.adapters.SendingAdapter
+import com.revosleap.text.dialogs.SentRecipients
 import com.revosleap.text.interfaces.ContactList
 import com.revosleap.text.interfaces.MessageClicked
 import com.revosleap.text.interfaces.OnContactClicked
@@ -27,7 +28,6 @@ import com.revosleap.text.models.Contacts
 import com.revosleap.text.models.PendingModel
 import com.revosleap.text.models.SentMessages
 import com.revosleap.text.utils.Blur
-import com.revosleap.text.utils.Utils
 import com.wafflecopter.multicontactpicker.ContactResult
 import com.wafflecopter.multicontactpicker.LimitColumn
 import com.wafflecopter.multicontactpicker.MultiContactPicker
@@ -127,19 +127,24 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
         buttonSend.setOnClickListener {
             contactList.forEach {
                 val contacts = Contacts()
-                contacts.contactName = it.name
-                contacts.phoneNumber = it.phoneNo
+                contacts.contactName = it.name?.trim()
+                contacts.phoneNumber = it.phoneNo?.trim()
                 sentMessages.contacts.add(contacts)
                 //Uncomment to send sms
                 //  smsManager.sendTextMessage(it.phoneNo,null,textMessage,null,null)
             }
             box.put(sentMessages)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            message.setText("")
         }
     }
 
     override fun onMessageClicked(sentMessages: SentMessages, index: Int) {
-       // Utils.toast(this, sentMessages.message!!)
+        // Utils.toast(this, sentMessages.message!!)
+    }
+
+    override fun onRecipientClicked(sentMessages: SentMessages) {
+        SentRecipients.getInstance(this@MainActivity,sentMessages).show()
     }
 
     private fun chooseContacts() {
@@ -234,6 +239,7 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
 
     private fun loadSavedMessages() {
         savedList = box.all
+        savedList.reverse()
         if (savedList.size > 0) {
             recyclerViewMessages.visibility = View.VISIBLE
             include.visibility = View.GONE
@@ -248,7 +254,7 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
     }
 
     fun getStatusBarHeight(): Int {
-        var result = 0
+        var result = 25
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) {
             result = resources.getDimensionPixelSize(resourceId)

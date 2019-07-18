@@ -43,17 +43,22 @@ class MessagesAdapter(private val messageClicked: MessageClicked) : RecyclerView
 
             message.text = sentMessages.message
             msgCounter.text = "Recipients ${sentMessages.contacts.size}"
+            val today = SimpleDateFormat("dd", Locale.getDefault())
+            val dateDifference = (today.format(System.currentTimeMillis()).toInt()).minus(
+                    today.format(sentMessages.time).toInt()
+            )
             val difference = System.currentTimeMillis() - sentMessages.time
             when {
-                difference < 86400000 -> {
+                dateDifference == 0 && difference <= 604800000 -> {
                     val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
                     dateCounter.text = "Today ${sdf.format(sentMessages.time)}"
                 }
-                difference in 86400001..172800000 -> {
-                    val sdf = SimpleDateFormat("Yesterday HH:mm", Locale.getDefault())
-                    dateCounter.text ="Yesterday ${sdf.format(sentMessages.time)}"
+                dateDifference == 1 && difference <= 604800000 -> {
+                    val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+                    dateCounter.text = "Yesterday ${sdf.format(sentMessages.time)}"
                 }
-                difference in 172800001..604800000 -> {
+
+                dateDifference in 2..7 && difference <= 604800000 -> {
                     val sdf = SimpleDateFormat("EEE HH:mm", Locale.getDefault())
                     dateCounter.text = sdf.format(sentMessages.time)
                 }
@@ -61,6 +66,10 @@ class MessagesAdapter(private val messageClicked: MessageClicked) : RecyclerView
                     val sdf = SimpleDateFormat("dd MM yyyy HH:mm", Locale.getDefault())
                     dateCounter.text = sdf.format(sentMessages.time)
                 }
+            }
+
+            msgCounter.setOnClickListener {
+                messageClicked.onRecipientClicked(sentMessages)
             }
 
             itemView.setOnClickListener {
