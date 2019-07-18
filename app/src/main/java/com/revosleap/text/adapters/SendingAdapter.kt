@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.revosleap.text.models.PendingModel
+import com.revosleap.text.models.ContactModel
 import com.revosleap.text.R
 import com.revosleap.text.interfaces.ContactList
 import com.revosleap.text.interfaces.OnContactClicked
 import java.lang.IndexOutOfBoundsException
 
 
-class SendingAdapter(contactList: MutableList<PendingModel>, onContactClicked: OnContactClicked,sendList: ContactList)
+class SendingAdapter(contactList: MutableList<ContactModel>, onContactClicked: OnContactClicked, sendList: ContactList)
     : RecyclerView.Adapter<SendingAdapter.PendingVh>() {
     private val contacts= contactList
     private val contactClicked= onContactClicked
@@ -53,9 +53,9 @@ class SendingAdapter(contactList: MutableList<PendingModel>, onContactClicked: O
 
     class PendingVh(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val removeBtn= itemView.findViewById<Button>(R.id.buttonCancel)
-        fun bind (pendingModel: PendingModel){
+        fun bind (contactModel: ContactModel){
             val textViewNum= itemView.findViewById<TextView>(R.id.textViewPending)
-            val numInfo= pendingModel.name+"\n"+ pendingModel.phoneNo
+            val numInfo= contactModel.name+"\n"+ contactModel.phoneNo
             textViewNum.text= numInfo
 
         }

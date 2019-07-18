@@ -1,6 +1,6 @@
 package com.revosleap.text.models
 
-class PendingModel {
+class ContactModel {
     var name: String?= null
     var phoneNo:String?=null
 

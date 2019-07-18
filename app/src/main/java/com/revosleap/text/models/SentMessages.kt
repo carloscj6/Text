@@ -9,6 +9,7 @@ import io.objectbox.relation.ToOne
 class SentMessages {
     @Id var id: Long=0
     var message:String?= null
+    var state:String?=null
     var time: Long=0
     @Backlink(to="messages")
     lateinit var contacts:MutableList<Contacts>

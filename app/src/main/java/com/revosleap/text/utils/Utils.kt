@@ -7,4 +7,8 @@ object Utils {
     fun toast(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
+
+    const val DRAFT_STATE = "Draft"
+    const val SENT_STATE = "Sent"
+    const val EDIT_STATE= "Editing"
 }
