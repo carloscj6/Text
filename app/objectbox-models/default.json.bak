@@ -1,0 +1,63 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:5325658593129893800",
+      "lastPropertyId": "3:3759234464221621804",
+      "name": "SentMessages",
+      "properties": [
+        {
+          "id": "1:792249293279939469",
+          "name": "id"
+        },
+        {
+          "id": "2:5249629615963730558",
+          "name": "message"
+        },
+        {
+          "id": "3:3759234464221621804",
+          "name": "time"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:5796181949380597797",
+      "lastPropertyId": "4:5031568205574164794",
+      "name": "Contacts",
+      "properties": [
+        {
+          "id": "1:3432094691044214943",
+          "name": "id"
+        },
+        {
+          "id": "2:4769626705971681352",
+          "name": "phoneNumber"
+        },
+        {
+          "id": "3:4214443051138471528",
+          "name": "contactName"
+        },
+        {
+          "id": "4:5031568205574164794",
+          "indexId": "1:120317729932128487",
+          "name": "messagesId"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:5796181949380597797",
+  "lastIndexId": "1:120317729932128487",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
