@@ -32,10 +32,12 @@ class RecipientAdapter : RecyclerView.Adapter<RecipientAdapter.RecipientViewHold
     class RecipientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.textViewRecipientName)
         private val number = itemView.findViewById<TextView>(R.id.textViewRecipientNumber)
+        private val initial= itemView.findViewById<TextView>(R.id.textViewFL)
 
         fun bind(contacts: Contacts) {
             name.text = contacts.contactName
             number.text = contacts.phoneNumber
+            initial.text= contacts.contactName?.get(0).toString()
         }
     }
 }

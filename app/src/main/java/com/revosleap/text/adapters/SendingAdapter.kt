@@ -7,39 +7,50 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.revosleap.text.models.ContactModel
 import com.revosleap.text.R
 import com.revosleap.text.interfaces.ContactList
 import com.revosleap.text.interfaces.OnContactClicked
-import java.lang.IndexOutOfBoundsException
+import com.revosleap.text.models.ContactModel
 
 
-class SendingAdapter(contactList: MutableList<ContactModel>, onContactClicked: OnContactClicked, sendList: ContactList)
+class SendingAdapter(onContactClicked: OnContactClicked, sendList: ContactList)
     : RecyclerView.Adapter<SendingAdapter.PendingVh>() {
-    private val contacts= contactList
-    private val contactClicked= onContactClicked
-    private val sendingList= sendList
+    private val contacts = mutableListOf<ContactModel>()
+    private val contactClicked = onContactClicked
+    private val sendingList = sendList
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): PendingVh {
-    return PendingVh( LayoutInflater.from(p0.context).inflate(R.layout.pending_contacts,p0,false))
+        return PendingVh(LayoutInflater.from(p0.context).inflate(R.layout.pending_contacts, p0, false))
     }
 
     override fun getItemCount(): Int {
-     return contacts.size
+        return contacts.size
     }
 
     override fun onBindViewHolder(p0: PendingVh, p1: Int) {
-        p0.bind(contacts[p1])
-       try {
-           p0.removeBtn.setOnClickListener { contactClicked.removeContact(contacts[p1],p1) }
-       }catch (e:IndexOutOfBoundsException){e.printStackTrace()}
         sendingList.contactList(contacts)
+        p0.bind(contacts[p1])
+        try {
+            p0.removeBtn.setOnClickListener { contactClicked.removeContact(contacts[p1], p1) }
+
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
+        }
+
     }
-    fun removeItem(position: Int){
+
+    fun addNewItems(contactList: MutableList<ContactModel>){
+        contacts.clear()
+        contacts.addAll(contactList)
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int) {
         contacts.removeAt(position)
         notifyItemRemoved(position)
         notifyDataSetChanged()
     }
-    fun clearAll(){
+
+    fun clearAll() {
         contacts.clear()
         notifyDataSetChanged()
     }
@@ -52,11 +63,11 @@ class SendingAdapter(contactList: MutableList<ContactModel>, onContactClicked: O
     }
 
     class PendingVh(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val removeBtn= itemView.findViewById<Button>(R.id.buttonCancel)
-        fun bind (contactModel: ContactModel){
-            val textViewNum= itemView.findViewById<TextView>(R.id.textViewPending)
-            val numInfo= contactModel.name+"\n"+ contactModel.phoneNo
-            textViewNum.text= numInfo
+        val removeBtn = itemView.findViewById<Button>(R.id.buttonCancel)
+        fun bind(contactModel: ContactModel) {
+            val textViewNum = itemView.findViewById<TextView>(R.id.textViewPending)
+            val numInfo = contactModel.name + "\n" + contactModel.phoneNo
+            textViewNum.text = numInfo
 
         }
     }

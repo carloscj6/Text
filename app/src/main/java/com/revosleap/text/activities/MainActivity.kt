@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.telephony.SmsManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.revosleap.text.Application
@@ -39,8 +40,8 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, MessageClicked {
-    private val contacts = mutableListOf<ContactModel>()
     private var savedList = mutableListOf<SentMessages>()
+    private val pendingContacts = mutableListOf<ContactModel>()
     private var pendingAdapter: SendingAdapter? = null
     private var messagesAdapter: MessagesAdapter? = null
     private var textMessage = ""
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
         loadHead()
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         setBotttomSheet()
-        pendingAdapter = SendingAdapter(contacts, this, this)
+        pendingAdapter = SendingAdapter( this, this)
         messagesAdapter = MessagesAdapter(this)
         compose.setOnClickListener {
             textMessage = message.text.toString().trim()
@@ -121,8 +122,8 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
     }
 
     override fun contactList(contactList: MutableList<ContactModel>) {
-        contacts.clear()
-        contacts.addAll(contactList)
+        pendingContacts.clear()
+        pendingContacts.addAll(contactList)
     }
 
     private val draftClickListener = View.OnClickListener {
@@ -144,7 +145,7 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
         sentMessages.message = textMessage
         sentMessages.time = System.currentTimeMillis()
         sentMessages.state = state
-        contacts.forEach {
+        pendingContacts.forEach {
             val contacts = Contacts()
             contacts.contactName = it.name?.trim()
             contacts.phoneNumber = it.phoneNo?.trim()
@@ -164,7 +165,7 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
     }
 
     override fun onRecipientClicked(sentMessages: SentMessages) {
-        SentRecipients.getInstance(this@MainActivity, sentMessages).show()
+        SentRecipients.getInstance(sentMessages).show(supportFragmentManager,"Recipients")
     }
 
     private fun chooseContacts() {
@@ -216,10 +217,11 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
             val model = ContactModel()
             model.name = it.displayName
             model.phoneNo = it.phoneNumbers[0].number
-            this.contacts.add(model)
+            pendingContacts.add(model)
         }
+        Log.e("List",pendingContacts.size.toString())
+        pendingAdapter?.addNewItems(pendingContacts)
         recyclerView.apply {
-            pendingAdapter!!.hasStableIds()
             adapter = pendingAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
             hasFixedSize()

@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -18,13 +19,17 @@ import kotlinx.android.synthetic.main.sent_recipients_dialog.*
 
 
 
-class SentRecipients(context: Context) : Dialog(context) {
+class SentRecipients : BottomSheetDialogFragment() {
     private var sentMessages: SentMessages? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.sent_recipients_dialog)
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.sent_recipients_dialog,container,false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setList()
     }
 
@@ -49,8 +54,8 @@ class SentRecipients(context: Context) : Dialog(context) {
 
 
     companion object {
-        fun getInstance(context: Context,message: SentMessages): SentRecipients {
-            val sentRecipients = SentRecipients(context)
+        fun getInstance(message: SentMessages): SentRecipients {
+            val sentRecipients = SentRecipients()
             sentRecipients.sentMessages = message
             return sentRecipients
         }

@@ -1,38 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginBottom="5dp"
-    android:minWidth="135dp"
-    android:layout_gravity="center"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp">
+
     <TextView
+        android:id="@+id/textViewFL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewRecipientName"
-        tools:text="Carlos Anyona"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textStyle="bold"/>
-    <TextView
-        android:autoLink="phone"
-        tools:text="07202888888"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewRecipientNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewRecipientName"
-        android:layout_marginTop="4dp"
-        android:textSize="12sp"/>
-    <View
-        android:alpha=".5"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/circular_bg"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/textViewRecipientNumber"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="C" />
+
+    <TextView
+        android:id="@+id/textViewRecipientName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/textViewFL"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Carlos Anyona" />
+
+    <TextView
+        android:id="@+id/textViewRecipientNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:autoLink="phone"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/textViewFL"
+        app:layout_constraintTop_toBottomOf="@id/textViewRecipientName"
+        tools:text="07202888888" />
 
 
 </android.support.constraint.ConstraintLayout>
