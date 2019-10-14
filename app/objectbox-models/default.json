@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:5325658593129893800",
-      "lastPropertyId": "3:3759234464221621804",
+      "lastPropertyId": "4:6463814565289776037",
       "name": "SentMessages",
       "properties": [
         {
@@ -19,6 +19,10 @@
         {
           "id": "3:3759234464221621804",
           "name": "time"
+        },
+        {
+          "id": "4:6463814565289776037",
+          "name": "state"
         }
       ],
       "relations": []
