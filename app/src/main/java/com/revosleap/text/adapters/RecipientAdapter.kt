@@ -1,5 +1,6 @@
 package com.revosleap.text.adapters
 
+import android.content.res.ColorStateList
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.revosleap.text.R
 import com.revosleap.text.models.Contacts
+import java.util.*
+
 
 class RecipientAdapter : RecyclerView.Adapter<RecipientAdapter.RecipientViewHolder>() {
     private var recipients = mutableListOf<Contacts>()
@@ -33,11 +36,15 @@ class RecipientAdapter : RecyclerView.Adapter<RecipientAdapter.RecipientViewHold
         private val name = itemView.findViewById<TextView>(R.id.textViewRecipientName)
         private val number = itemView.findViewById<TextView>(R.id.textViewRecipientNumber)
         private val initial= itemView.findViewById<TextView>(R.id.textViewFL)
+        private val context = itemView.context
 
         fun bind(contacts: Contacts) {
             name.text = contacts.contactName
             number.text = contacts.phoneNumber
             initial.text= contacts.contactName?.get(0).toString()
+            val colors= context.resources.getIntArray(R.array.accent_colors)
+            val accentBg= colors[Random().nextInt(colors.size)]
+            initial.backgroundTintList= ColorStateList.valueOf(accentBg)
         }
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="accent_colors">
+        <item>@color/accent_red</item>
+        <item>@color/accent_pink</item>
+        <item>@color/accent_violet</item>
+        <item>@color/accent_purple</item>
+        <item>@color/accent_d_blue</item>
+        <item>@color/accent_m_blue</item>
+        <item>@color/accent_d_cyan</item>
+        <item>@color/accent_cyan</item>
+        <item>@color/accent_azure</item>
+        <item>@color/accent_teal</item>
+        <item>@color/accent_f_lime</item>
+        <item>@color/accent_lime</item>
+        <item>@color/accent_yellow</item>
+        <item>@color/accent_d_orange</item>
+        <item>@color/accent_l_orange</item>
+        <item>@color/accent_orange</item>
+    </array>
+</resources>

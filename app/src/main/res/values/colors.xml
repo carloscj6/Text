@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- main app colors-->
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorAccentLight">#ffcdd2</color>
+    <!-- speech bubble colors-->
     <color name="speech_bubble_user">#D500C853</color>
     <color name="speech_bubble_agent">#D500C853</color>
+    <!-- accent colors for random contacts-->
+    <color name="accent_red">#FF1744</color>
+    <color name="accent_pink">#F50057</color>
+    <color name="accent_violet">#D500F9</color>
+    <color name="accent_purple">#651FFF</color>
+    <color name="accent_d_blue">#3D5AFE</color>
+    <color name="accent_m_blue">#2979FF</color>
+    <color name="accent_d_cyan">#00B0FF</color>
+    <color name="accent_cyan">#00E5FF</color>
+    <color name="accent_azure">#1DE9B6</color>
+    <color name="accent_teal">#00E676</color>
+    <color name="accent_lime">#76FF03</color>
+    <color name="accent_f_lime">#C6FF00</color>
+    <color name="accent_yellow">#FFEA00</color>
+    <color name="accent_d_orange">#FFC400</color>
+    <color name="accent_l_orange">#FF9100</color>
+    <color name="accent_orange">#FF3D00</color>
 </resources>
