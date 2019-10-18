@@ -1,55 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginBottom="8dp"
-    android:padding="8dp"
+    app:cardCornerRadius="8dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardUseCompatPadding="true">
 
-    android:background="@drawable/message_bubble"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        android:layout_width="0dp"
-        android:padding="8dp"
-        android:textColor="@android:color/white"
-        android:layout_marginStart="8dp"
-        tools:text="@string/lorem"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        android:autoLink="all"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/textViewMsg"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:id="@+id/textViewTime"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toStartOf="@id/textViewMsg"
-        app:layout_constraintTop_toBottomOf="@id/textViewMsg"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        tools:text="Today 4:20"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:background="@drawable/counter_bg"
-        android:textColor="@android:color/white"
-        android:layout_marginEnd="5dp"
-        android:elevation="5dp"
-        android:fadingEdgeLength="6dp"
-        tools:text="12 Recipients"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewMsg"
-        android:id="@+id/textViewMsgCount"/>
-    <View
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewMsgCount"/>
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/textViewMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/lorem" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:alpha=".5"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/textViewMsg" />
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_time"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/textViewMsgCount"
+            app:layout_constraintStart_toStartOf="@id/textViewMsg"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            tools:text="Today 4:20"
+             />
+
+        <TextView
+            android:id="@+id/textViewMsgCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_people_outline"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@id/textViewMsgStatus"
+            app:layout_constraintStart_toEndOf="@id/textViewTime"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            tools:text="12" />
+        <TextView
+            android:id="@+id/textViewMsgStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_info_outline"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textViewMsgCount"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            tools:text="12" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -161,12 +161,9 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
     }
 
     override fun onMessageClicked(sentMessages: SentMessages, index: Int) {
-        // Utils.toast(this, sentMessages.message!!)
-    }
-
-    override fun onRecipientClicked(sentMessages: SentMessages) {
         SentRecipients.getInstance(sentMessages).show(supportFragmentManager,"Recipients")
     }
+
 
     private fun chooseContacts() {
         MultiContactPicker.Builder(this@MainActivity)

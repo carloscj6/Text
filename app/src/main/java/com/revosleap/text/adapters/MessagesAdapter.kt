@@ -35,14 +35,15 @@ class MessagesAdapter(private val messageClicked: MessageClicked) : RecyclerView
 
 
     inner class SavedVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val message = itemView.findViewById<TextView>(R.id.textViewMsg)
+        val msgCounter = itemView.findViewById<TextView>(R.id.textViewMsgCount)
+        val dateCounter = itemView.findViewById<TextView>(R.id.textViewTime)
+        val status= itemView.findViewById<TextView>(R.id.textViewMsgStatus)
         @SuppressLint("SetTextI18n")
         fun bind(sentMessages: SentMessages) {
-            val message = itemView.findViewById<TextView>(R.id.textViewMsg)
-            val msgCounter = itemView.findViewById<TextView>(R.id.textViewMsgCount)
-            val dateCounter = itemView.findViewById<TextView>(R.id.textViewTime)
-
+            status.text = "Sent"
             message.text = sentMessages.message
-            msgCounter.text = "Recipients ${sentMessages.contacts.size}"
+            msgCounter.text = "${sentMessages.contacts.size}"
             val today = SimpleDateFormat("dd", Locale.getDefault())
             val dateDifference = (today.format(System.currentTimeMillis()).toInt()).minus(
                     today.format(sentMessages.time).toInt()
@@ -63,13 +64,9 @@ class MessagesAdapter(private val messageClicked: MessageClicked) : RecyclerView
                     dateCounter.text = sdf.format(sentMessages.time)
                 }
                 else -> {
-                    val sdf = SimpleDateFormat("dd MM yyyy HH:mm", Locale.getDefault())
+                    val sdf = SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault())
                     dateCounter.text = sdf.format(sentMessages.time)
                 }
-            }
-
-            msgCounter.setOnClickListener {
-                messageClicked.onRecipientClicked(sentMessages)
             }
 
             itemView.setOnClickListener {
