@@ -137,7 +137,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/home/carlos/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/notification/ic_sms_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/home/carlos/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_people_outline_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -147,7 +147,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_sms" />
+                            <entry key="outputName" value="ic_people_outline" />
                             <entry key="sourceFile" value="$USER_HOME$/Downloads/annulled-emoticon-square-face.svg" />
                           </map>
                         </option>

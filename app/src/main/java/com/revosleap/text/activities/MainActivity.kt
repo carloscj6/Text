@@ -14,7 +14,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.telephony.SmsManager
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.revosleap.text.Application
@@ -28,6 +27,7 @@ import com.revosleap.text.interfaces.OnContactClicked
 import com.revosleap.text.models.ContactModel
 import com.revosleap.text.models.Contacts
 import com.revosleap.text.models.SentMessages
+import com.revosleap.text.models.SentMessages_
 import com.revosleap.text.utils.Blur
 import com.revosleap.text.utils.Utils
 import com.wafflecopter.multicontactpicker.ContactResult
@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
     private var textMessage = ""
     private val box: Box<SentMessages> = Application.boxStore!!.boxFor()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+    private var editMode = false
+    private var sentMessagesItem: SentMessages? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +61,7 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
         loadHead()
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         setBotttomSheet()
-        pendingAdapter = SendingAdapter( this, this)
+        pendingAdapter = SendingAdapter(this, this)
         messagesAdapter = MessagesAdapter(this)
         compose.setOnClickListener {
             textMessage = message.text.toString().trim()
@@ -127,21 +129,26 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
     }
 
     private val draftClickListener = View.OnClickListener {
-        if (textMessage.isEmpty()) {
+        val message = message.text.toString().trim()
+        if (message.isEmpty()) {
             textInputLayout.error = "Type a message"
         } else {
+            textMessage = message
             handleMessage(Utils.DRAFT_STATE, false)
-            Utils.toast(this@MainActivity,"Message Saved")
+            Utils.toast(this@MainActivity, "Draft Message Saved!!")
         }
     }
 
-    private val sendClickListener= View.OnClickListener {
-      handleMessage(Utils.SENT_STATE, true)
+    private val sendClickListener = View.OnClickListener {
+        if (!editMode) {
+            handleMessage(Utils.SENT_STATE, true)
+        } else sendEditedDraft()
     }
 
     private fun handleMessage(state: String, send: Boolean) {
         val smsManager = SmsManager.getDefault()
         val sentMessages = SentMessages()
+        val contactsList= mutableListOf<Contacts>()
         sentMessages.message = textMessage
         sentMessages.time = System.currentTimeMillis()
         sentMessages.state = state
@@ -150,20 +157,45 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
             contacts.contactName = it.name?.trim()
             contacts.phoneNumber = it.phoneNo?.trim()
             sentMessages.contacts.add(contacts)
+            contactsList.add(contacts)
             if (send) {
                 //TODO Uncomment to send sms
                 //smsManager.sendTextMessage(it.phoneNo,null,textMessage,null,null)
             }
         }
-        box.put(sentMessages)
+        if (!editMode) {
+            box.put(sentMessages)
+        } else {
+            saveEdited(contactsList)
+            editMode = false
+        }
+
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         message.setText("")
     }
 
     override fun onMessageClicked(sentMessages: SentMessages, index: Int) {
-        SentRecipients.getInstance(sentMessages).show(supportFragmentManager,"Recipients")
+        if (sentMessages.state == Utils.DRAFT_STATE) {
+            message.setText(sentMessages.message)
+            editMode = true
+            sentMessagesItem = sentMessages
+        } else
+            SentRecipients.getInstance(sentMessages).show(supportFragmentManager, "Recipients")
     }
 
+    private fun saveEdited(contactList: MutableList<Contacts>) {
+        val queryBuilder = box.query()
+        val item = queryBuilder.equal(SentMessages_.id, sentMessagesItem?.id!!).build().find()
+        if (item.size > 0) {
+            sentMessagesItem?.state = Utils.SENT_STATE
+            sentMessagesItem?.contacts= contactList
+            box.put(sentMessagesItem!!)
+        }
+    }
+
+    private fun sendEditedDraft() {
+        handleMessage(Utils.SENT_STATE, true)
+    }
 
     private fun chooseContacts() {
         MultiContactPicker.Builder(this@MainActivity)
@@ -216,7 +248,6 @@ class MainActivity : AppCompatActivity(), OnContactClicked, ContactList, Message
             model.phoneNo = it.phoneNumbers[0].number
             pendingContacts.add(model)
         }
-        Log.e("List",pendingContacts.size.toString())
         pendingAdapter?.addNewItems(pendingContacts)
         recyclerView.apply {
             adapter = pendingAdapter

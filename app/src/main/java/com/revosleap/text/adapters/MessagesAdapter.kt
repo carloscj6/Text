@@ -41,7 +41,7 @@ class MessagesAdapter(private val messageClicked: MessageClicked) : RecyclerView
         val status= itemView.findViewById<TextView>(R.id.textViewMsgStatus)
         @SuppressLint("SetTextI18n")
         fun bind(sentMessages: SentMessages) {
-            status.text = "Sent"
+            status.text = sentMessages.state
             message.text = sentMessages.message
             msgCounter.text = "${sentMessages.contacts.size}"
             val today = SimpleDateFormat("dd", Locale.getDefault())
